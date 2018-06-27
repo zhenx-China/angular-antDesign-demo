@@ -17,6 +17,7 @@ import {
   Validators
 } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import { Data } from '@angular/router/src/config';
 
 @Component({
   selector: 'app-pending-incident',
@@ -32,8 +33,11 @@ export class PendingIncidentComponent implements OnInit {
   alarmName: string;
   inputPhoneNumber: string;
   inputDescription: string;
-  inputIncidentTime: string;
+  inputIncidentTime: Data;
   inputAddress: string;
+
+  // 添加数据用到定义一临时对象
+  incidentTemp: Incident;
   constructor(private incidentService: IncidentService,
               private notification: NzNotificationService,
               private eventAggregator: EventAggregator,
@@ -47,9 +51,9 @@ export class PendingIncidentComponent implements OnInit {
     this.validateForm = this.fb.group({
       name         : [ null, [ Validators.required ] ],
       phoneNumberPrefix: [ '+86' ],
-      phoneNumber      : [ null, [ Validators.required ] ],
+      phoneNumber      : [ null, [ Validators.required] ],
       description          : [ null, [ Validators.required ] ],
-      incidentTime          : [ null, [ Validators.required ] ],
+      inputIncidentTime          : [ null, [ Validators.required ] ],
       address          : [ null, [ Validators.required ] ]
     });
   }
@@ -75,6 +79,12 @@ export class PendingIncidentComponent implements OnInit {
     this.incidentModIsVisible = true;
   }
 
+
+  // 添加警情到内存数据库
+  addIncidentData(incident: Incident): void {
+    this.incidentService.addIncident(incident).subscribe();
+  }
+
   // 提交警情数据
   handlesubmit(): void {
     let num = 0 ;
@@ -88,16 +98,16 @@ export class PendingIncidentComponent implements OnInit {
       }
     }
     if (num === 0) {
-       // 增加数据
-     this.dataSet = [ ...this.dataSet, {
-       id    : 'ECUCity-20180611-0101-10236' + num,
-       phoneNumber   : this.inputPhoneNumber,
-       address    : this.inputAddress,
-       status: 0,
-       alarmName: this.alarmName,
-       incidentTime: this.inputIncidentTime,
-       description: this.inputDescription
-     }];
+     this.incidentTemp = {
+        id    : 'ECUCity-20180611-0101-10236' + num,
+        phoneNumber   : this.inputPhoneNumber,
+        address    : this.inputAddress,
+        status: 0,
+        alarmName: this.alarmName,
+        incidentTime: this.inputIncidentTime.toString(),
+        description: this.inputDescription
+       };
+      this.addIncidentData(this.incidentTemp);
       // 通知右边菜单中的数字角标
       this.eventAggregator.publish(this.stringKey.RefreshUnTreated, this.dataSet.length);
       // 弹出框提示通知
@@ -107,8 +117,8 @@ export class PendingIncidentComponent implements OnInit {
               this.alarmName = '';
               this.inputAddress = '';
               this.inputPhoneNumber = '';
-              this.inputIncidentTime = '';
               this.inputDescription = '';
+      this.getAllIncident();
       this.incidentModIsVisible = false;
     }
 

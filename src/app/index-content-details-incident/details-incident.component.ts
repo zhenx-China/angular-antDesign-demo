@@ -54,6 +54,11 @@ export class DetailsIncidentComponent implements OnInit {
     });
   }
 
+  // 根据警情ID删除警情数据
+  deleteIncidentById(id: string): void {
+    this.incidentService.deleteIncidentById(id).subscribe();
+  }
+
   // 获取所有资源人数据
   getAllResources(): void {
     this.incidentService.getAllResourcesPeople()
@@ -79,6 +84,7 @@ export class DetailsIncidentComponent implements OnInit {
 
   // 结束警情
   endIncident(): void {
+    this.deleteIncidentById(this.incidentId);
     this.route.navigate([ 'index/pendingIncident' ]);
   }
   // 调派资源用到

@@ -52,12 +52,13 @@
 
         <!--事发时间-->
           <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="incidentTime" nzRequired>事发时间</nz-form-label>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="inputIncidentTime" nzRequired>事发时间</nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
-                <input nz-input id="incidentTime" formControlName="incidentTime" placeholder="incidentTime" [(ngModel)]="inputIncidentTime">
-                <nz-form-explain *ngIf="validateForm.get('incidentTime').dirty && validateForm.get('incidentTime').errors">请输入事发时间!</nz-form-explain>
+                <nz-date-picker nzShowTime  [(ngModel)]="inputIncidentTime" formControlName="inputIncidentTime"
+                [nzDisabledDate]="disableDate" nzFormat="yyyy/MM/dd HH:mm:ss">
+              </nz-date-picker>
               </nz-form-control>
-            </nz-form-item>
+            </nz-form-item> 
            <!--事发地址-->
             <nz-form-item>
                 <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>事发地址</nz-form-label>

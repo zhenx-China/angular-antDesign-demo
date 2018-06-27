@@ -37,4 +37,13 @@ export class IncidentService {
     return this.http.get<ResourcesPeople[]>(this.resourcesPeopleUrl);
    }
 
+  // 根据警情ID删除警情
+  deleteIncidentById (id: string): Observable<Incident> {
+    return this.http.delete<Incident>(this.incidentByIdUrl + id);
+  }
+
+  // 新增警情数据
+  addIncident (incident: Incident): Observable<Incident> {
+    return this.http.post<Incident>(this.incidentUrl, incident);
+  }
 }
