@@ -1,0 +1,14 @@
+<nz-layout>
+<!--布局控件，头部菜单区域-->
+   <nz-header> <app-header></app-header> </nz-header>
+ <!--布局控件，中间区域-->
+  <nz-layout>
+     <!--布局控件，左边菜单区域-->
+    <nz-sider><app-menu></app-menu></nz-sider>
+    <!--布局控件，中间警情展示区域-->
+    <nz-content><router-outlet></router-outlet></nz-content>
+  </nz-layout>
+  <!--布局控件，底部区域-->
+  <nz-footer><app-footer></app-footer></nz-footer>
+
+</nz-layout>

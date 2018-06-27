@@ -1,0 +1,78 @@
+<div class="addincidentButton">
+<button nz-button  [nzType]="'primary'" (click)="addIncident()"><span>新增警情</span></button>
+</div>
+<nz-table #nzTable [nzData]="dataSet" [nzPageSize]="5">
+    <thead>
+      <tr>
+        <th>警情编号</th>
+        <th>报警人电话</th>
+        <th>报警地址</th>
+        <th>处置状态</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of nzTable.data">
+          <td>{{data.id}}</td>
+          <td>{{data.phoneNumber}}</td>
+          <td>{{data.address}}</td>
+          <td>{{data.status | incidentStatusString}}</td>
+          <td><button nz-button [nzType]="'primary'" (click)="inToDisposal(data.id)"><span> 进入处置 </span></button>
+        </tr>
+    </tbody>
+  </nz-table>
+  <!--新增警情对话框-->
+  <nz-modal [(nzVisible)]="incidentModIsVisible" nzTitle="新增警情对话框" (nzOnCancel)="handleCancel()" (nzOnOk)="handlesubmit()">
+  
+      <form nz-form [formGroup]="validateForm" >
+         <!--报警人姓名-->
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>报警人姓名</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input id="name" formControlName="name"  placeholder="name" [(ngModel)]="alarmName">
+              <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">请输入报警人姓名!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+           <!--报警人电话-->
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>报警人电话</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['phoneNumber']">
+              <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+                <ng-template #addOnBeforeTemplate>
+                  <nz-select formControlName="phoneNumberPrefix" style="width: 70px;">
+                    <nz-option nzLabel="+86" nzValue="+86"></nz-option>
+                    <nz-option nzLabel="+87" nzValue="+87"></nz-option>
+                  </nz-select>
+                </ng-template>
+                <input formControlName="phoneNumber" id="'phoneNumber'"  placeholder="phoneNumber" nz-input [(ngModel)]="inputPhoneNumber">
+              </nz-input-group>
+              <nz-form-explain *ngIf="validateForm.get('phoneNumber').dirty && validateForm.get('phoneNumber').errors">请输入电话号码!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+        <!--事发时间-->
+          <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="incidentTime" nzRequired>事发时间</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input id="incidentTime" formControlName="incidentTime" placeholder="incidentTime" [(ngModel)]="inputIncidentTime">
+                <nz-form-explain *ngIf="validateForm.get('incidentTime').dirty && validateForm.get('incidentTime').errors">请输入事发时间!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+           <!--事发地址-->
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>事发地址</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                  <input nz-input id="address" formControlName="address" placeholder="address" [(ngModel)]="inputAddress">
+                  <nz-form-explain *ngIf="validateForm.get('address').dirty && validateForm.get('address').errors">请输入事发地址!</nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+         <!--警情描述-->
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzRequired>警情描述</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input id="description" formControlName="description" placeholder="description" [(ngModel)]="inputDescription">
+              <nz-form-explain *ngIf="validateForm.get('description').dirty && validateForm.get('description').errors">请输入警情描述!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+    </nz-modal>

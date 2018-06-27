@@ -1,0 +1,19 @@
+.login-h1
+{
+  vertical-align: center;
+  font-size: 30px;
+  text-align: center;
+  color: beige;
+}
+.login-h2
+{
+  font-size: 10px;
+  text-align: right;
+  color: beige;
+  margin-right: 50px;
+}
+.login-div
+{
+ background: #010202;
+ height: 60px;
+}

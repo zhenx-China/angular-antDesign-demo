@@ -1,0 +1,27 @@
+.deHeader {
+    background: rgb(245, 245, 220);
+    text-align: left;
+    height: 220px;
+}
+.deContent {
+    text-align: left;
+    margin-top: 10px;
+    height: 200px;
+}
+
+.deFooter {
+    text-align: right;
+    height: 100px;
+}
+.gridStyle {
+    width    : '25%';
+    text-align: center;
+}
+.deSider {
+    background: white;
+}
+.timeline {
+    text-align: left;
+    height: 260px;
+    width: 50px;
+}

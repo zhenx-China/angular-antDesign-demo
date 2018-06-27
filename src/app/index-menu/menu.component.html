@@ -1,0 +1,18 @@
+<ul nz-menu [nzMode]="'inline'" style="width: 240px; height: 300px">
+    <li nz-submenu [nzOpen]="true">
+      <span title ><i class="anticon anticon-mail"></i>警情列表</span>
+      <ul>
+        <li nz-menu-item [nzSelected]="true" >
+                <nz-badge [nzCount]= "incidentCount">
+          <span title class="head-example" ><a (click)="pendingIncidentClick()"> 待处理列表 </a> </span>
+              </nz-badge>
+        </li>
+        <li nz-menu-item>
+          <span title> <a (click)="waitingIncidentClick()"> 待分配列表 </a></span>
+        </li>
+      </ul>
+    </li>
+    <li nz-submenu>
+      <span title><i class="anticon anticon-appstore"></i> 资源列表 </span>
+    </li>
+  </ul>
