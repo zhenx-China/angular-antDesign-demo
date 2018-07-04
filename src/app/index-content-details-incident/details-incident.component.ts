@@ -5,13 +5,15 @@ import { IncidentService } from '../common/services/incident.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ResourcesPeople } from '../common/model/resourcesPeople';
 import { forEach } from '@angular/router/src/utils/collection';
+
+import { TimeLine } from '../common/model/timeline';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-details-incident',
   templateUrl: './details-incident.component.html',
   styleUrls: ['./details-incident.component.css']
 })
 export class DetailsIncidentComponent implements OnInit {
-
   incidentId: string;
   incidentData: Incident;
   resourcesPeopleData: any[] = [];
@@ -21,9 +23,20 @@ export class DetailsIncidentComponent implements OnInit {
   dispatchRecordsPeople: any[];
   resourcesModIsVisible = false;
 
-  constructor( private activatedRoute: ActivatedRoute,
+
+  // 模拟时间轴用的数据
+  da = new Date();
+  items: TimeLine[] = [
+    {id: '111', content: '李明开始处置警情', datetime: this.da},
+    {id: '222', content: '张敏添加了一条处置记录。', datetime: this.da},
+    {id: '222', content: '李明调派了一个资源', datetime: this.da}
+  ];
+
+    constructor( private activatedRoute: ActivatedRoute,
                private incidentService: IncidentService,
-               private route: Router) {
+               private route: Router,
+               // 可以转换时间格式用法this.datePipe.transform(this.dateTime, 'yyyy-MM-dd HH:mm:ss'));
+               private datePipe: DatePipe) {
       activatedRoute.queryParams.subscribe(queryParams => {
           this.incidentId = queryParams.id;
       });
@@ -82,6 +95,20 @@ export class DetailsIncidentComponent implements OnInit {
     this.route.navigate([ 'index/pendingIncident' ]);
   }
 
+  // 添加处置记录
+  addjilu(): void {
+    // tslint:disable-next-line:prefer-const
+    let item: TimeLine;
+    item = {id: '222', content: '李明调派了一个资源', datetime: this.da};
+    this.items.push(item);
+
+    this.dataSetjilu = [ ...this.dataSetjilu, {
+      key    : `111`,
+      name   : `Edward King`,
+      time    : '32',
+      content: `London, Park Lane no.`
+    }];
+  }
   // 结束警情
   endIncident(): void {
     this.deleteIncidentById(this.incidentId);

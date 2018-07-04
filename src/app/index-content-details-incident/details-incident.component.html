@@ -55,28 +55,23 @@
       <nz-footer class="deFooter"> 
           <button nz-button class="fanhui-button" [nzType]="'primary'" (click)="returnList()">返回警情列表</button>
           <a>  |  </a>
+          <button nz-button class="fanhui-button" [nzType]="'primary'" (click)="addjilu()" >添加处置记录</button>
+          <a>  |  </a>
           <button nz-button class="fanhui-button" [nzType]="'primary'" (click)="showModal()" >调派资源</button>
           <a>  |  </a>
           <button nz-button class="fanhui-button" [nzType]="'primary'" nz-popconfirm nzTitle="是否需要结束当前警情？" (nzOnConfirm)="endIncident()" nzPlacement="top">结束警情</button>
       </nz-footer>
     </nz-layout>
-     <!-- 时间轴区域-->
-     <nz-sider class="deSider">
-      <nz-timeline class="timeline">
-        <nz-timeline-item nzColor="green">警情分给李明 2018-06-26</nz-timeline-item>
-        <nz-timeline-item nzColor="green">警情开始处理 2018-06-26 </nz-timeline-item>
-        <nz-timeline-item nzColor="red">
-          <p>李明调派了警车 2018-06-26</p>
-          <p>李明添加了一条处置记录：</p>
-          <p>资源已到达现场 2018-06-26</p>
-        </nz-timeline-item>
-        <nz-timeline-item>
-          <p>李明调派了警车 2018-06-26</p>
-          <p>李明添加了一条处置记录：</p>
-          <p>资源已到达现场 2018-06-26</p>
-        </nz-timeline-item>
-      </nz-timeline>
-      </nz-sider>
+    <!-- 时间轴区域-->
+   <nz-sider class="deSider">
+      <nz-timeline class="timeline" *ngFor="let item of items">
+          <nz-timeline-item nzColor="green">
+              <p>{{ item.content}}</p>
+              <p>{{ item.datetime | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+          </nz-timeline-item>
+     </nz-timeline>
+   </nz-sider>
+
   </nz-layout>
 
     <!--调派资源对话框-->
