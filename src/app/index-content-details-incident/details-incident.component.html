@@ -55,7 +55,7 @@
       <nz-footer class="deFooter"> 
           <button nz-button class="fanhui-button" [nzType]="'primary'" (click)="returnList()">返回警情列表</button>
           <a>  |  </a>
-          <button nz-button class="fanhui-button" [nzType]="'primary'" (click)="addjilu()" >添加处置记录</button>
+          <button nz-button class="fanhui-button" [nzType]="'primary'" (click)="czshowModal()" >添加处置记录</button>
           <a>  |  </a>
           <button nz-button class="fanhui-button" [nzType]="'primary'" (click)="showModal()" >调派资源</button>
           <a>  |  </a>
@@ -78,3 +78,8 @@
     <nz-modal [(nzVisible)]="resourcesModIsVisible" nzTitle="资源人列表" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
         <nz-checkbox-group [(ngModel)]="resourcesPeopleData" (ngModelChange)="log(resourcesPeopleData)" ></nz-checkbox-group>
     </nz-modal>
+
+    <!-- 新增处置记录对话框-->
+    <nz-modal [(nzVisible)]="chuzhijiluModIsVisible" nzTitle="添加处置记录" (nzOnCancel)="czhandleCancel()" (nzOnOk)="addjilu()">
+      <textarea row="8" nz-input [(ngModel)]="inputchuzhijilu" ></textarea>
+  </nz-modal>

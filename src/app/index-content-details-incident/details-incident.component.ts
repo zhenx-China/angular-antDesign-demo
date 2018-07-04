@@ -8,6 +8,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 import { TimeLine } from '../common/model/timeline';
 import { DatePipe } from '@angular/common';
+import { timeInterval } from 'rxjs/operators';
 @Component({
   selector: 'app-details-incident',
   templateUrl: './details-incident.component.html',
@@ -18,14 +19,15 @@ export class DetailsIncidentComponent implements OnInit {
   incidentData: Incident;
   resourcesPeopleData: any[] = [];
   showResources: any[] = [];
-
+  inputchuzhijilu: string;
   // 定义调派过的资源人
   dispatchRecordsPeople: any[];
   resourcesModIsVisible = false;
+  chuzhijiluModIsVisible =false;
 
 
   // 模拟时间轴用的数据
-  da = new Date();
+  da = this.getnowdatetime();
   items: TimeLine[] = [
     {id: '111', content: '李明开始处置警情', datetime: this.da},
     {id: '222', content: '张敏添加了一条处置记录。', datetime: this.da},
@@ -99,7 +101,7 @@ export class DetailsIncidentComponent implements OnInit {
   addjilu(): void {
     // tslint:disable-next-line:prefer-const
     let item: TimeLine;
-    item = {id: '222', content: '李明调派了一个资源', datetime: this.da};
+    item = {id: '1', content: this.inputchuzhijilu, datetime: this.getnowdatetime()};
     this.items.push(item);
 
     this.dataSetjilu = [ ...this.dataSetjilu, {
@@ -108,12 +110,21 @@ export class DetailsIncidentComponent implements OnInit {
       time    : '32',
       content: `London, Park Lane no.`
     }];
+
+    this.chuzhijiluModIsVisible = false;
   }
+
+  // 获取当前时间
+  getnowdatetime(): Date {
+    return new Date();
+  }
+
   // 结束警情
   endIncident(): void {
     this.deleteIncidentById(this.incidentId);
     this.route.navigate([ 'index/pendingIncident' ]);
   }
+
   // 调派资源用到
   showModal(): void {
     this.getAllResources();
@@ -126,6 +137,17 @@ export class DetailsIncidentComponent implements OnInit {
    this.resourcesModIsVisible = false;
  }
 
+
+   // 调派资源用到
+  czshowModal(): void {
+    this.chuzhijiluModIsVisible = true;
+  }
+  czhandleOk(): void {
+    this.chuzhijiluModIsVisible = false;
+  }
+  czhandleCancel(): void {
+    this.chuzhijiluModIsVisible = false;
+ }
 
   // 模拟处置记录的数据
   // tslint:disable-next-line:member-ordering
