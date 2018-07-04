@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Data } from '@angular/router/src/config';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pending-incident',
@@ -44,6 +45,7 @@ export class PendingIncidentComponent implements OnInit {
               private nzMessageService: NzMessageService,
               private route: Router,
               private fb: FormBuilder,
+              private datePipe: DatePipe,
               public stringKey: StringKey) { }
 
   ngOnInit() {
@@ -104,14 +106,12 @@ export class PendingIncidentComponent implements OnInit {
         address    : this.inputAddress,
         status: 0,
         alarmName: this.alarmName,
-        incidentTime: this.inputIncidentTime.toString(),
+        incidentTime: this.datePipe.transform(this.inputIncidentTime, 'yyyy-MM-dd HH:mm:ss'),
         description: this.inputDescription
        };
       this.addIncidentData(this.incidentTemp);
       // 通知右边菜单中的数字角标
       this.eventAggregator.publish(this.stringKey.RefreshUnTreated, this.dataSet.length);
-      // 弹出框提示通知
-      this.createNotification('info');
       this.nzMessageService.info('添加成功');
               // 清空表单数据
               this.alarmName = '';
